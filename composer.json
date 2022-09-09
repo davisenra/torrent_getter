@@ -1,0 +1,19 @@
+{
+    "name": "davi/torrent_getter",
+    "type": "project",
+    "license": "Unlicensed",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Davi Martins",
+            "email": "davi.senra98@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
