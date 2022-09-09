@@ -14,6 +14,18 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.0"
+        "guzzlehttp/guzzle": "^7.0",
+        "twig/twig": "^3.0",
+        "symfony/asset": "^6.1",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.5",
+        "nyholm/psr7": "^1.5",
+        "nyholm/psr7-server": "^1.0",
+        "guzzlehttp/psr7": "^2",
+        "laminas/laminas-diactoros": "^2.17",
+        "slim/twig-view": "^3.3",
+        "php-di/php-di": "^6.4",
+        "php-di/slim-bridge": "^3.2",
+        "selective/basepath": "^2.1"
     }
 }

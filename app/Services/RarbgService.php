@@ -1,13 +1,13 @@
-<?php /** @noinspection PhpInconsistentReturnPointsInspection */
+<?php
 
-namespace App\Controllers;
+namespace App\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 
-class RarbgController
+class RarbgService
 {
     private string $endpoint;
     private string $app_id;
