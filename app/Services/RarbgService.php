@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpInconsistentReturnPointsInspection */
 
 namespace App\Controllers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 
 class RarbgController
@@ -35,14 +36,12 @@ class RarbgController
 
         try {
             $req = $client->request('GET', $this->endpoint, ['query' => $params]);
-            $res = json_decode($req->getBody());
-        } catch (ClientException | ServerException $e) {
+            return json_decode($req->getBody());
+        } catch (ClientException|ServerException|GuzzleException $e) {
             if ($e->hasResponse()) {
                 throw $e->getResponse()->getStatusCode();
             }
         }
-
-        return $res;
     }
 
     public function getToken(): string
@@ -57,12 +56,11 @@ class RarbgController
         try {
             $req = $client->request('GET', $this->endpoint, ['query' => $params]);
             $res = json_decode($req->getBody());
-        } catch (ClientException | ServerException $e) {
+            return $res->token;
+        } catch (ClientException|ServerException|GuzzleException $e) {
             if ($e->hasResponse()) {
                 throw $e->getResponse()->getStatusCode();
             }
         }
-
-        return $res->token;
     }
 }
