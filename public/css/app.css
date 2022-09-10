@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;700&display=swap');
+@import url('header.css');
 
-body {
-    font-family: 'Work Sans', sans-serif;
+:root {
+    --rich-black: #0a0f0d;
+    --floral-white: #FFFCF2;
+    --sea-green: #4FB477;
+    --celadon-blue: #007EA7;
+    --carolina-blue: #00A8E8;
 }

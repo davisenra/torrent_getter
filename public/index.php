@@ -3,6 +3,7 @@
 ini_set('display_errors', 'On');
 
 use App\Controllers\HomeController;
+use App\Controllers\SearchController;
 use DI\Container;
 use Selective\BasePath\BasePathDetector;
 use Slim\Factory\AppFactory;
@@ -30,5 +31,6 @@ $container->set('HomeController', function () use ($container) {
 });
 
 $app->get('/', [HomeController::class, 'index']);
+$app->post('/search', [SearchController::class, 'search']);
 
 $app->run();

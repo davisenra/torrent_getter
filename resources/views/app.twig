@@ -1,5 +1,26 @@
 {% extends 'base.twig' %}
 
 {% block app %}
-    <h1>teste</h1>
+    <div class="container mt-4">
+        <div class="search__form">
+            <div class="input-group mb-3">
+                <input type="text"
+                       name="search-string"
+                       class="form-control search__box__input"
+                       placeholder="Search"
+                       required minlength="3">
+                </div>
+            <button class="btn btn-info search__button" type="button" value="">
+                <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block results %}
+    <div class="container mt-4">
+        <ul class="list-group search__results">
+
+        </ul>
+    </div>
 {% endblock %}

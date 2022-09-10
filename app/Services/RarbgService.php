@@ -29,7 +29,7 @@ class RarbgService
             'format' => 'json_extended',
             'ranked' => 0,
             'app_id' => $this->app_id,
-            'token' => $this->getToken()
+            'token' => $this->generateToken()
         ];
 
         sleep(1);
@@ -44,7 +44,7 @@ class RarbgService
         }
     }
 
-    public function getToken(): string
+    public function generateToken(): string
     {
         $client = new Client();
 

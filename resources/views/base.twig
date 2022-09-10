@@ -5,11 +5,24 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="/css/app.css" rel="stylesheet">
     <title>Torrent Getter</title>
+    <script type="module" src="/js/app.js" defer></script>
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/80d6628bcd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css"
+          integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH"
+          crossorigin="anonymous">
 </head>
 <body>
+    {% block header %}
+        {{ include('header.twig') }}
+    {% endblock %}
+
     {% block app %}
+    {% endblock %}
+
+    {% block results %}
     {% endblock %}
 </body>
 </html>
