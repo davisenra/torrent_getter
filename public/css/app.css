@@ -8,3 +8,19 @@
     --celadon-blue: #007EA7;
     --carolina-blue: #00A8E8;
 }
+
+.loading {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading__ripple {
+    height: 160px;
+    width: auto;
+}
+
+.loading__visible {
+    display: none;
+}

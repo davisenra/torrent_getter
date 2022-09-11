@@ -24,7 +24,7 @@ class SearchController
             $response->getBody()->write($data);
             return $response
                 ->withHeader('Content-Type', 'application/json')
-                ->withStatus(204);
+                ->withStatus(200);
         }
 
         $data = json_encode([

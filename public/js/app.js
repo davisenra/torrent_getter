@@ -3,16 +3,17 @@ import { formatBytes } from "./functions.js";
 const resultsBox = document.querySelector('.search__results');
 const searchButton = document.querySelector('.search__button');
 const searchString = document.querySelector('.search__box__input');
+const loadingRipple = document.querySelector('.loading__ripple');
 
 function populateResults(results) {
     if (results.error) {
-        resultsBox.innerHTML = 'No results found!';
+        resultsBox.innerHTML = '<p>No results found!</p>';
         return;
     }
 
-    let html = '<h5>' + (results.torrent_results).length + ' results were found</h5>';
+    let html = '<h5>' + (results.data.torrent_results).length + ' results were found</h5>';
 
-    (results.torrent_results).forEach((item) => {
+    (results.data.torrent_results).forEach((item) => {
         html +=
             '<a href="' + item.download + '" ' +
             'class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">' +
@@ -39,6 +40,7 @@ async function fetchTorrents(data) {
         })
 
         torrents = await response.json();
+
         return torrents;
     } catch (e) {
         console.error(e)
@@ -51,9 +53,13 @@ async function queryAction() {
             "search-string": searchString.value
         };
         searchString.value = ''
+        resultsBox.innerHTML = ''
+        loadingRipple.classList.toggle('loading__visible');
+
         let torrents = await fetchTorrents(data);
 
-        populateResults(torrents.data);
+        loadingRipple.classList.toggle('loading__visible');
+        populateResults(torrents);
     })
 }
 
