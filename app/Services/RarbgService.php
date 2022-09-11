@@ -20,8 +20,6 @@ class RarbgService
 
     public function query(string $queryString, string $sortBy = 'seeders'): object
     {
-        $client = new Client();
-
         $params = [
             'mode' => 'search',
             'search_string' => $queryString,
@@ -33,6 +31,8 @@ class RarbgService
         ];
 
         sleep(1);
+
+        $client = new Client();
 
         try {
             $req = $client->request('GET', $this->endpoint, ['query' => $params]);
@@ -46,12 +46,12 @@ class RarbgService
 
     public function generateToken(): string
     {
-        $client = new Client();
-
         $params = [
             'get_token' => 'get_token',
             'app_id' => $this->app_id
         ];
+
+        $client = new Client();
 
         try {
             $req = $client->request('GET', $this->endpoint, ['query' => $params]);

@@ -8,7 +8,7 @@ use Slim\Psr7\Response;
 
 class SearchController
 {
-    public function search(Request $request, Response $response)
+    public function search(Request $request, Response $response): Response
     {
         $params = json_decode($request->getBody(), true);
 
@@ -16,9 +16,13 @@ class SearchController
         $torrents = $rarbgService->query($params['search-string']);
 
         if (isset($torrents->error)) {
-            $response->getBody()->write($torrents->error);
+            $data = json_encode([
+                'success' => false,
+                'error' => $torrents->error
+            ]);
+
+            $response->getBody()->write($data);
             return $response
-                ->withBody($response->getBody())
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(204);
         }
