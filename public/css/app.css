@@ -9,6 +9,10 @@
     --carolina-blue: #00A8E8;
 }
 
+body {
+    padding-bottom: 100px;
+}
+
 .loading {
     width: 100%;
     display: flex;
