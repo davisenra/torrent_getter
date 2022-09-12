@@ -16,7 +16,7 @@ class YtsService
         $this->endpoint = 'https://yts.mx/api/v2/list_movies.json';
     }
 
-    public function query(string $queryString, string $sortBy = 'seeds')
+    public function query(string $queryString, string $sortBy = 'seeds'): array
     {
         $params = [
             'query_term' => $queryString,
