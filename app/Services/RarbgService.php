@@ -18,7 +18,7 @@ class RarbgService
         $this->app_id = 'torrent-getter';
     }
 
-    public function query(string $queryString, string $sortBy = 'seeders'): object
+    public function query(string $queryString, string $sortBy = 'seeders'): array
     {
         $params = [
             'mode' => 'search',
@@ -30,13 +30,11 @@ class RarbgService
             'token' => $this->generateToken()
         ];
 
-        sleep(1);
-
         $client = new Client();
 
         try {
             $req = $client->request('GET', $this->endpoint, ['query' => $params]);
-            return json_decode($req->getBody());
+            return json_decode($req->getBody(), true);
         } catch (ClientException|ServerException|GuzzleException $e) {
             if ($e->hasResponse()) {
                 throw $e->getResponse()->getStatusCode();
