@@ -16,8 +16,8 @@
 
 1. Clone the project: ```git clone https://github.com/davisenra/torrent_getter.git && cd torrent_getter```
 2. Install dependencies: ```composer install```
-3. Start PHP built-in developement server: ```php -S localhost:8000 -t public```
-4. Open localhost:8000 in your browser and that's it!
+3. Start PHP built-in development server: ```php -S localhost:8000 -t public```
+4. Open localhost:8000 in your browser and that's it.
 
 **Trackers:**
 
