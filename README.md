@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/davisenra/torrent_getter/main/public/Screenshot%20from%202022-09-11%2015-46-10.png">
+  <img src="https://raw.githubusercontent.com/davisenra/torrent_getter/main/public/Screenshot.png">
 </div>
 
 ## torrent_getter
