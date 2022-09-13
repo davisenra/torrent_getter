@@ -22,5 +22,5 @@
 **Trackers:**
 
 ```RARBG (Working ✅)```
-```YTS (WIP ⚠️)```
+```YTS (Working ✅)```
 ```1337X (WIP ⚠️)```
