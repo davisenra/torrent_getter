@@ -20,7 +20,11 @@ class SearchController
         usort($torrents, fn($a, $b) => $b['seeders'] <=> $a['seeders']);
 
         if (!count($torrents)) {
-            $response->getBody()->write('No results were found.');
+            $data = json_encode([
+                'success' => false,
+                'message' => 'No results were found.'
+            ]);
+            $response->getBody()->write($data);
             return $response
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(200);
