@@ -19,6 +19,13 @@ class SearchController
         $torrents = array_merge($ytsTorrents, $rarbgTorrents);
         usort($torrents, fn($a, $b) => $b['seeders'] <=> $a['seeders']);
 
+        if (!count($torrents)) {
+            $response->getBody()->write('No results were found.');
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        }
+
         $data = json_encode([
             'success' => true,
             'data' => $torrents
@@ -72,26 +79,30 @@ class SearchController
             '&tr=udp://tracker.leechers-paradise.org:6969'
         ];
 
-        foreach ($data['data']['movies'] as $movie) {
-            foreach ($movie['torrents'] as $torrent) {
-                /* Defining a better filename. */
-                $title = str_replace(' ', '.', $movie['title']) . '.' . $movie['year'] . '.' . $torrent['type'] . '.' . $torrent['quality'];
+        if (isset($data['data']['movies'])) {
+            foreach ($data['data']['movies'] as $movie) {
+                foreach ($movie['torrents'] as $torrent) {
+                    /* Defining a better filename. */
+                    $title = str_replace(' ', '.', $movie['title']) . '.' . $movie['year'] . '.' . $torrent['type'] . '.' . $torrent['quality'];
 
-                /* Manually stitching the magnet link since YTS API does not provide one. */
-                $magnet = 'magnet:?xt=urn:btih:' . $torrent['hash'] . '&dn=' . urlencode($movie['title']) . '&tr=';
-                $trackersString = join('&tr=', $trackers);
+                    /* Manually stitching the magnet link since YTS API does not provide one. */
+                    $magnet = 'magnet:?xt=urn:btih:' . $torrent['hash'] . '&dn=' . urlencode($movie['title']) . '&tr=';
+                    $trackersString = join('&tr=', $trackers);
 
-                $torrents[] = [
-                    'source' => 'YTS.MX',
-                    'title' => $title,
-                    'seeders' => $torrent['seeds'],
-                    'leechers' => $torrent['peers'],
-                    'size' => $torrent['size_bytes'],
-                    'download' => $magnet . $trackersString
-                ];
+                    $torrents[] = [
+                        'source' => 'YTS.MX',
+                        'title' => $title,
+                        'seeders' => $torrent['seeds'],
+                        'leechers' => $torrent['peers'],
+                        'size' => $torrent['size_bytes'],
+                        'download' => $magnet . $trackersString
+                    ];
+                }
             }
-        }
 
-        return $torrents;
+            return $torrents;
+        } else {
+            return [];
+        }
     }
 }
