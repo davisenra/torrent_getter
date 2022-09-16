@@ -1,80 +1,53 @@
-import { formatBytes } from "./functions.js";
+function app() {
+    return {
+        string: '',
+        torrents: '',
+        error: '',
+        showLoading: false,
+        showResults: false,
+        resultsAmount: '',
 
-const resultsBox = document.querySelector('.search__results');
-const searchButton = document.querySelector('.search__button');
-const searchString = document.querySelector('.search__box__input');
-const loadingRipple = document.querySelector('.loading__ripple');
+        async fetchTorrents() {
+            this.showLoading = true;
+            this.showResults = false;
 
-queryAction();
+            let data = {
+                "search-string": this.string
+            };
+            this.string = ''
 
-function queryAction() {
-    searchButton.addEventListener('click', async (e) => {
-        let data = {
-            "search-string": searchString.value
-        };
-        searchString.value = ''
-        resultsBox.innerHTML = ''
-        loadingRipple.classList.toggle('loading__visible');
+            let response;
 
-        let torrents = await fetchTorrents(data);
+            try {
+                let request = await fetch('/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
 
-        loadingRipple.classList.toggle('loading__visible');
-        populateResults(torrents);
-    })
-}
+                response = await request.json();
 
-async function fetchTorrents(data) {
-    let torrents;
+                this.resultsAmount = (response.data).length;
+                this.torrents = response.data;
+                this.showLoading = false;
+                this.showResults = true;
+            } catch (e) {
+                console.error(e);
+                this.error = 'Something went wrong...'
+            }
+        },
 
-    try {
-        const response = await fetch('/search', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        })
+        formatBytes(bytes, decimals = 2) {
+            if (!+bytes) return '0 Bytes'
 
-        torrents = await response.json();
+            const k = 1024
+            const dm = decimals < 0 ? 0 : decimals
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 
-        console.log(torrents)
+            const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-        return torrents;
-    } catch (e) {
-        console.error(e)
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+        },
     }
 }
 
-function populateResults(results) {
-    if (results.length === 0) {
-        resultsBox.innerHTML = '<p>No results found!</p>';
-        return;
-    }
-
-    let html = '<h5>' + (results.data).length + ' results were found</h5>';
-
-    (results.data).forEach((item) => {
-        if (item.source === 'YTS.MX') {
-            html +=
-                '<a href="' + item.download + '" ' + 'class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">' +
-                    '<div class="info">' +
-                        '<span class="badge badge-danger badge-pill p-1 mr-2">' + item.source + '</span>' +
-                        '<span>' + item.title + '</span>' +
-                    '</div>'
-        } else if (item.source === 'RARBG') {
-            html +=
-                '<a href="' + item.download + '" ' + 'class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">' +
-                    '<div class="info">' +
-                        '<span class="badge badge-success badge-pill p-1 mr-2">' + item.source + '</span>' +
-                        '<span>' + item.title + '</span>' +
-                    '</div>'
-        }
-
-        html +=
-                '<div class="actions">' +
-                    '<span class="badge badge-light badge-pill p-1">' + 'Size: ' + formatBytes(item.size) + '</span>' +
-                    '<span class="badge badge-light badge-pill p-1">' + 'S: ' + item.seeders + '</span>' +
-                    '<span class="badge badge-light badge-pill p-1">' + 'L: ' + item.leechers + '</span>' +
-                '</div> </a>';
-    });
-
-    resultsBox.innerHTML = html;
-}

@@ -25,6 +25,7 @@ body {
     width: auto;
 }
 
-.loading__visible {
-    display: none;
+.item__info {
+    max-width: 70%;
+    overflow: hidden;
 }
