@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Services\LeetxService;
 use App\Services\RarbgService;
 use App\Services\YtsService;
+use App\Utils\Utils;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -13,11 +15,7 @@ class SearchController
     {
         $params = json_decode($request->getBody(), true);
 
-        $ytsTorrents = $this->fetchYtsTorrents($params['search-string']);
-        $rarbgTorrents = $this->fetchRarbgTorrents($params['search-string']);
-
-        $torrents = array_merge($ytsTorrents, $rarbgTorrents);
-        usort($torrents, fn($a, $b) => $b['seeders'] <=> $a['seeders']);
+        $torrents = $this->fetchAllServices($params['search-string']);
 
         if (!count($torrents)) {
             $data = json_encode([
@@ -41,6 +39,18 @@ class SearchController
             ->withStatus(200);
     }
 
+    private function fetchAllServices(string $queryString): array
+    {
+        $leetTorrents = $this->fetchLeetTorrents($queryString);
+        $ytsTorrents = $this->fetchYtsTorrents($queryString);
+        $rarbgTorrents = $this->fetchRarbgTorrents($queryString);
+
+        $torrents = array_merge($ytsTorrents, $rarbgTorrents, $leetTorrents);
+        usort($torrents, fn($a, $b) => $b['seeders'] <=> $a['seeders']);
+
+        return $torrents;
+    }
+
     private function fetchRarbgTorrents(string $searchString): array
     {
         $rarbgService = new RarbgService();
@@ -58,7 +68,7 @@ class SearchController
                 'title' => $torrent['title'],
                 'seeders' => $torrent['seeders'],
                 'leechers' => $torrent['leechers'],
-                'size' => $torrent['size'],
+                'size' => Utils::formatBytes($torrent['size']),
                 'download' => $torrent['download']
             ];
         }
@@ -98,7 +108,7 @@ class SearchController
                         'title' => $title,
                         'seeders' => $torrent['seeds'],
                         'leechers' => $torrent['peers'],
-                        'size' => $torrent['size_bytes'],
+                        'size' => Utils::formatBytes($torrent['size_bytes']),
                         'download' => $magnet . $trackersString
                     ];
                 }
@@ -108,5 +118,11 @@ class SearchController
         } else {
             return [];
         }
+    }
+
+    private function fetchLeetTorrents(string $queryString): array
+    {
+        $leetService = new LeetxService();
+        return $leetService->query($queryString);
     }
 }
