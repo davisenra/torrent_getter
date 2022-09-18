@@ -23,4 +23,4 @@
 
 ```RARBG (Working ✅)```
 ```YTS (Working ✅)```
-```1337X (WIP ⚠️)```
+```1337X (Working ✅)```
