@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Utils;
+namespace App\Helpers;
 
-class Utils
+class Helper
 {
     public static function formatBytes($bytes, $precision = 2): string
     {
