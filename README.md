@@ -29,7 +29,8 @@
 3. Client setup:
     3.1 cd torrent_getter/client
     3.2 npm install
-    3.3 Open localhost:5173 in your browser
+    3.3 npm run dev
+    3.4 Open localhost:5173 in your browser
 4. Enjoy
 ```
 
